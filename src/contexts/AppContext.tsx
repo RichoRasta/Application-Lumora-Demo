@@ -8,8 +8,8 @@ import {
 } from "../types";
 import { translations } from "../data/translations";
 import { onAuthStateChanged, User, signOut } from "firebase/auth";
-import { auth, db } from "../lib/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth } from "../lib/firebase";
+import { UserService } from "../services/userService";
 
 const defaultProgress: UserProgress = {
   completedLessons: [],
@@ -59,12 +59,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       
       if (currentUser) {
         try {
-          const userRef = doc(db, "users", currentUser.uid);
-          const userDoc = await getDoc(userRef);
+          const data = await UserService.getUserProgress(currentUser.uid);
   
-          if (userDoc.exists()) {
-            const data = userDoc.data();
-            
+          if (data) {
             // Maintain nested legacy `progress` or flat structure
             const loadedProgress: UserProgress = data.progress 
               ? data.progress // old format
@@ -89,7 +86,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             setProgress(loadedProgress);
             
             // Update lastLoginAt
-            await setDoc(userRef, { lastLoginAt: new Date().toISOString() }, { merge: true });
+            await UserService.updateUserProgress(currentUser.uid, { lastLoginAt: new Date().toISOString() });
           } else {
             // Create user document with flat schema
             const newDoc = {
@@ -110,7 +107,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
               bookmarks: [],
               progressPercentage: 0
             };
-            await setDoc(userRef, newDoc);
+            await UserService.createUserDocument(currentUser.uid, newDoc);
             setProgress(defaultProgress);
           }
           
@@ -290,13 +287,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (user && !isAuthLoading && isDataLoaded) {
       const updateProgress = async () => {
         try {
-          const userRef = doc(db, "users", user.uid);
-          
           // Total items check for arbitrary percentage calculation if real count varies
           const maxLessons = 50; 
           const progressPercentage = Math.min(100, Math.round((progress.completedLessons.length / maxLessons) * 100));
 
-          await setDoc(userRef, { 
+          await UserService.updateUserProgress(user.uid, { 
             uid: user.uid,
             streak: progress.streak,
             longestStreak: progress.longestStreak,
@@ -314,7 +309,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             progressPercentage,
             // Only update if changes occur to prevent infinite loops, merge true maintains backward compat.
             progress 
-          }, { merge: true });
+          });
         } catch (error) {
           console.error("Firebase Sync Error: Could not save progress.", error);
         }

@@ -1,25 +1,20 @@
-# Coding From Zero
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-Coding From Zero is a beginner-friendly coding education platform designed for people with no prior programming experience.
+# Run and deploy your AI Studio app
 
-The platform provides structured learning roadmaps, interactive lessons, quizzes, progress tracking, authentication, and project-based learning to help students learn web development step by step.
+This contains everything you need to run your app locally.
 
-## Features
+View your app in AI Studio: https://ai.studio/apps/531c7427-6aa9-4da7-b3b6-38c5394dc4e2
 
-- Structured Learning Roadmaps
-- Interactive Lessons
-- Quiz System
-- Progress Tracking
-- User Authentication
-- Responsive Design
-- Firebase Integration
-- Beginner-Friendly Content
+## Run Locally
 
-## Tech Stack
+**Prerequisites:**  Node.js
 
-- React
-- TypeScript
-- Tailwind CSS
-- Firebase Authentication
-- Firestore
-- Vite
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
