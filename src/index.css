@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-navy: var(--theme-navy, #0F172A);
+  --color-slate: var(--theme-slate, #1E293B);
+  --color-soft-blue: var(--theme-soft-blue, #EFF6FF);
+  --color-soft-blue-border: var(--theme-soft-blue-border, #93C5FD);
+  --color-primary-blue: var(--theme-primary, #2563EB);
+  --color-soft-purple: var(--theme-soft-purple, #F5F3FF);
+  --color-soft-purple-border: var(--theme-soft-purple-border, #C4B5FD);
+  --color-primary-purple: var(--theme-primary-purple, #7C3AED);
+  
+  --color-white: var(--theme-white, #ffffff);
+  --color-gray-50: var(--theme-gray-50, #f9fafb);
+  --color-gray-100: var(--theme-gray-100, #f3f4f6);
+  --color-gray-400: var(--theme-gray-400, #9ca3af);
+  --color-gray-500: var(--theme-gray-500, #6b7280);
+  --color-gray-800: var(--theme-gray-800, #1f2937);
+
+  --font-sans: var(--theme-font, "Inter", ui-sans-serif, system-ui, sans-serif);
+}
+
+*, ::before, ::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+body {
+  @apply bg-gray-50 text-slate-900 font-sans antialiased;
+}
+
+.dark body {
+  @apply bg-navy text-white;
+}
+
+/* Scrollbar styling for modern feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full dark:bg-gray-700;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-600;
+}
+
+/* THEMES */
+/* In dark mode, classes used are generally:
+   bg-navy (body)
+   bg-slate (cards, sidebar)
+   bg-gray-800 (hover bg, borders, secondary cards)
+   text-white (primary text)
+   text-gray-400 / 500 (secondary text)
+*/
+
+:root[data-theme="github-dark"] {
+  --theme-navy: #0D1117;
+  --theme-slate: #161B22; 
+  --theme-white: #E6EDF3; 
+  --theme-gray-800: #21262D; 
+  --theme-gray-400: #8B949E;
+  --theme-gray-500: #8B949E;
+  --theme-primary: #2F81F7;
+  --theme-soft-blue: #1F6FEB20;
+  --theme-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+:root[data-theme="dracula"] {
+  --theme-navy: #282A36;
+  --theme-slate: #44475A;
+  --theme-white: #F8F8F2;
+  --theme-gray-800: #6272A4;
+  --theme-gray-400: #8BE9FD; /* lighter cyan for text occasionally */
+  --theme-gray-500: #6272A4;
+  --theme-primary: #BD93F9;
+  --theme-soft-blue: #BD93F920;
+}
+
+:root[data-theme="nord"] {
+  --theme-navy: #2E3440;
+  --theme-slate: #3B4252;
+  --theme-white: #ECEFF4;
+  --theme-gray-800: #434C5E;
+  --theme-gray-400: #D8DEE9;
+  --theme-gray-500: #E5E9F0; /* Nord's text muted */
+  --theme-primary: #88C0D0;
+  --theme-soft-blue: #88C0D020;
+}
+
+:root[data-theme="solarized-dark"] {
+  --theme-navy: #002B36;
+  --theme-slate: #073642;
+  --theme-white: #EEE8D5;
+  --theme-gray-800: #586E75; /* Borders */
+  --theme-gray-400: #93A1A1;
+  --theme-gray-500: #839496;
+  --theme-primary: #B58900;
+  --theme-soft-blue: #B5890020;
+}
+
+:root[data-theme="cyberpunk"] {
+  --theme-navy: #0F0F1A;
+  --theme-slate: #1D1D35;
+  --theme-white: #F5F5F5;
+  --theme-gray-800: #2D2D4A;
+  --theme-gray-400: #A0A0C0;
+  --theme-gray-500: #8080A0;
+  --theme-primary: #00FFFF;
+  --theme-soft-blue: #00FFFF20;
+}
+
+:root[data-theme="matrix"] {
+  --theme-navy: #050505;
+  --theme-slate: #111111;
+  --theme-white: #00FF88; /* matrix primary text */
+  --theme-gray-800: #1A1A1A; /* borders */
+  --theme-gray-400: #00CC66;
+  --theme-gray-500: #009944;
+  --theme-primary: #00FF88;
+  --theme-soft-blue: #00FF8820;
+  --theme-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root[data-theme="ocean-blue"] {
+  --theme-navy: #0F172A;
+  --theme-slate: #1E293B;
+  --theme-white: #F8FAFC;
+  --theme-gray-800: #334155;
+  --theme-gray-400: #94A3B8;
+  --theme-gray-500: #CBD5E1;
+  --theme-primary: #38BDF8;
+  --theme-soft-blue: #38BDF820;
+}
+
+/* Light Mode mapping */
+:root[data-theme="light-modern"] {
+  /* In light mode:
+     bg-gray-50 (body)
+     bg-white (cards, sidebar)
+     border-gray-100 (borders)
+     text-navy (primary text)
+     text-gray-500 (secondary text)
+  */
+  --theme-white: #FFFFFF;
+  --theme-gray-50: #F8FAFC;
+  --theme-gray-100: #F1F5F9;
+  --theme-gray-400: #94A3B8;
+  --theme-gray-500: #64748B;
+  --theme-navy: #0F172A; 
+  --theme-primary: #2563EB;
+  --theme-soft-blue: #EFF6FF;
+}
